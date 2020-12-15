@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase';
 
@@ -18,6 +19,10 @@ if (!firebase.apps.length) {
         appId: "1:930558232387:web:b05bdf6e2378acc83611f6"
     });
 }
+
+LogBox.ignoreLogs([
+    "Setting a timer for a long period of time"
+]);
 
 export default function App() {
     return (

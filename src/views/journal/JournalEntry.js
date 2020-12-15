@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: Platform.OS === 'ios' ? 'Bradley Hand' : 'serif',
-        fontSize: 20,
+        fontSize: 16,
         marginBottom: 10
     },
     form: {
@@ -89,14 +89,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     gratitudeIndex: {
-        fontFamily: 'Bradley Hand',
+        fontFamily: Platform.OS === 'ios' ? 'Bradley Hand' : 'serif',
         marginRight: 5
     },
     gratitudeInput: (editable) => ({
         width: '90%',
         borderWidth: 0, 
         borderBottomWidth: editable ? 1 : 0,
-        marginLeft: 15
+        marginLeft: 15,
+        color: 'black'
     }),
     summary: (empty, editable) => ({
         alignSelf: 'stretch',
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
         marginTop: empty && !editable ? 0 : 10,
         marginBottom: empty && !editable ? 0 : 10,
         height: empty && !editable ? 0 : 150,
-        borderWidth: editable ? 1 : 0
+        borderWidth: editable ? 1 : 0,
+        color: 'black'
     }),
     buttonContainer: {
         flexDirection: 'row',

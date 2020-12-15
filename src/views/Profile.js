@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
     },
     themeContainer: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        minWidth: 200
     },
     themeTitle: {
         alignSelf: 'center',

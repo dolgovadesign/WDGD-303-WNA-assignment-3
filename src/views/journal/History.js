@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { ActivityContext, AuthenticationContext } from '../../contexts';
@@ -11,16 +11,17 @@ import JournalEntry from './JournalEntry';
 export default function History() {
     const [date, setDate] = useState(new Date());
     const [entry, setEntry] = useState();
+    const [show, setShow] = useState(Platform.OS === 'ios');
     const [viewing, setViewing] = useState(false);
     const { setBusy } = useContext(ActivityContext);
     const { user } = useContext(AuthenticationContext);
 
-    const onView = async () => {
-        await loadEntry(date);
+    const onView = async (date) => {
         setViewing(true);
+        await loadEntry(date);
     };
 
-    const loadEntry = async () => {
+    const loadEntry = async (date) => {
         const day = getShortDate(date);
 
         console.log(`Loading ${day} Journal Entry for user ${user.uid}`);
@@ -66,16 +67,36 @@ export default function History() {
 
     return (
         <View style={styles.container}>
-            <Text style={{ fontSize: 16, marginBottom: 10 }}>Select journal entry date:</Text>
-            <DateTimePicker
-                style={styles.calendar}
-                value={date}
-                mode="date"
-                display="calendar"
-                onChange={(_, selectedDate) => setDate(selectedDate || date)} />
+            <Text style={{ fontSize: 16, marginBottom: 10 }}>Select journal entry date</Text>
+            {
+                !viewing && show &&
+                (<DateTimePicker
+                    style={styles.calendar}
+                    value={date}
+                    mode="date"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                        if(event.type === 'dismissed') {
+                            setShow(false);
+                            return;
+                        }
+
+                        setDate(selectedDate || date);
+
+                        if (Platform.OS === 'android') {
+                            onView(selectedDate || date);
+                        }
+                    }} />)
+            }
             <Button 
                 title="VIEW" 
-                onPress={onView} />
+                onPress={() => {
+                    if (Platform.OS === 'ios') {
+                        onView(date);
+                    } else {
+                        setShow(true);
+                    }
+                }} />
         </View>
     );
 }
