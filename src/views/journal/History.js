@@ -89,7 +89,7 @@ export default function History() {
                     }} />)
             }
             <Button 
-                title="VIEW" 
+                title={Platform.OS === 'ios' ? "VIEW" : "OPEN CALENDAR" } 
                 onPress={() => {
                     if (Platform.OS === 'ios') {
                         onView(date);
